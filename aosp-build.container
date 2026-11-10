@@ -1,0 +1,30 @@
+[Unit]
+Description=aosp build environment
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=localhost/aosp-build
+ContainerName=aosp-build
+HostName=aosp-build
+WorkingDir=/mnt/yassd/AOSP
+Volume=/mnt/yassd:/mnt/yassd
+Volume=%h/.ssh:/root/.ssh:ro
+Volume=%h/.zshrc:/root/.zshrc:ro
+Volume=%h/.oh-my-zsh:/root/.oh-my-zsh
+Volume=%h/.zsh_history:/root/.zsh_history
+Volume=%h/.gitconfig:/root/.gitconfig:ro
+Environment=USE_CCACHE=1
+Environment=CCACHE_DIR=/mnt/yassd/AOSP/.ccache
+Environment=CCACHE_EXEC=/usr/bin/ccache
+Ulimit=nofile=65536:65536
+Exec=sleep infinity
+SecurityLabelDisable=true
+Timezone=Asia/Shanghai
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target
